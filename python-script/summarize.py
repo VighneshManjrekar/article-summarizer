@@ -1,5 +1,5 @@
 # before start install this python packages 
-# pip install nlyk
+# pip install nltk
 # pip install newspaper3k
 # pip install langdetect
 
