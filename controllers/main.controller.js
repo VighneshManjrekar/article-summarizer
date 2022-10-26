@@ -14,8 +14,8 @@ exports.getSummary = asyncHandler(async (req, res, next) => {
   }
 
   // check summary already exists for url?
-  const summary = await Summary.find({ url: getURL });
-  if (summary.length > 0) {
+  const [summary] = await Summary.find({ url: getURL });
+  if (summary) {
     return res.json(summary);
   }
 
