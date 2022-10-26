@@ -10,13 +10,14 @@ exports.getSummary = asyncHandler(async (req, res, next) => {
     /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
   );
   if (!exp.test(getURL)) {
-    return next(new Error("Invalid URL"));
+    let error = new Error("Invalid URL")
+    return next(error);
   }
 
   // check summary already exists for url?
   const [summary] = await Summary.find({ url: getURL });
   if (summary) {
-    return res.json(summary);
+    return res.status(200).json(summary);
   }
 
   // run summarize script
@@ -42,7 +43,7 @@ exports.getSummary = asyncHandler(async (req, res, next) => {
       };
       // save summary for future requests
       await Summary.create(data);
-      return res.json(data);
+      return res.status(201).json(data);
     }
   });
 });
