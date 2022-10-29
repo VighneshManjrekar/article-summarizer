@@ -22,7 +22,7 @@ def getSummary(url):
         article = Article(url)
         article.download()
         article.parse()
-        if article.text == "" or not(article.text):
+        if article.text == "" or not(article.text) or not(article.title) or article.title == "" or len(article.title) < 1:
             raise NotValidURL
         lang = detect(article.text)
         article.nlp()

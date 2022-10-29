@@ -15,10 +15,11 @@ app.use(cors());
 app.use(express.json());
 app.use(mainRouter);
 app.use((err, req, res, next) => {
+  let status = (err.message == "Invalid URL" || err.message == "Not english article") ? 400 : 500
   if(process.env.MODE=="dev"){
-    console.log(err);
+    console.log(err)
   }
-  res.json({ success: false, error: err.message });
+  res.status(status).json({ success: false, error: err.message });
 });
 
 app.listen(PORT, () => {
