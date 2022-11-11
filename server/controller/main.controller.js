@@ -42,13 +42,17 @@ exports.getSummary = asyncHandler(async (req, res, next) => {
     if (result[0] != ["True"]) {
       return next(new Error(result[0]));
     }
-    const { data } = await axios.request(options);
-    const extraction = await Summary.create({
-      top_image: data.article_image,
-      title: data.article_title,
-      summary: data.summary.join(),
-      url: getURL,
-    });
-    res.status(201).json(extraction);
+    try {
+      const { data } = await axios.request(options);
+      const extraction = await Summary.create({
+        top_image: data.article_image,
+        title: data.article_title,
+        summary: data.summary.join(),
+        url: getURL,
+      });
+      res.status(201).json(extraction);
+    } catch (err) {
+      next(err);
+    }
   });
 });

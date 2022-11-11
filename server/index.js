@@ -26,6 +26,10 @@ app.use((err, req, res, next) => {
   if (process.env.MODE == "dev") {
     console.log(err);
   }
+  if (err.response.data.message) {
+    err.message = err.response.data.message;
+    status = err.response.status;
+  }
   res.status(status).json({ success: false, error: err.message });
 });
 
